@@ -1,0 +1,127 @@
+{
+  "groups": [
+    {
+      "id": "1",
+      "name": "VPC West",
+      "type": "vpc",
+      "width": 500,
+      "height": 400,
+      "left": 250,
+      "top": -150,
+      "fill": "#FFFFFF",
+      "outline": "#000000",
+      "category": "network-groups",
+      "details": "More information about this VPC"
+    },
+
+    {
+      "id": "5",
+      "name": "VPC East",
+      "type": "vpc",
+      "width": 300,
+      "height": 300,
+      "left": 850,
+      "top": -50,
+      "fill": "#FFFFFF",
+      "outline": "#000000",
+      "category": "network-groups",
+      "details": "More information about this VPC"
+    }
+  ],
+
+  "nodes": [
+    {
+      "id": "2",
+      "name": "Server 1",
+      "type": "server",
+      "group": "1",
+      "left": 50,
+      "top": 50,
+      "details": "This server is very important.\n\nDon't turn this server off.\n\n",
+      "fill": "#FFFFFF",
+      "outline": "#C38383",
+      "category": "network"
+    },
+    {
+      "id": "3",
+      "name": "Server 2",
+      "type": "server",
+      "group": "1",
+      "left": 280,
+      "top": 130,
+      "details": "More information about this server",
+      "fill": "#FFFFFF",
+      "outline": "#438E39",
+      "category": "network"
+    },
+    {
+      "id": "4",
+      "name": "Database 1",
+      "type": "database",
+      "group": "1",
+      "left": 90,
+      "top": 250,
+      "details": "Where all the informations are stored",
+      "fill": "#FFFFFF",
+      "outline": "#438E39",
+      "category": "network"
+    },
+    {
+      "id": "6",
+      "name": "Database 2",
+      "type": "database",
+      "group": "5",
+      "left": 90,
+      "top": 50,
+      "details": "Where all the informations are stored",
+      "fill": "#FFFFFF",
+      "outline": "#438E39",
+      "category": "network"
+    },
+    {
+      "id": "7",
+      "name": "Entry Point",
+      "type": "router",
+      "left": 700,
+      "top": 350,
+      "details": "Everything goes through here",
+      "fill": "#FFFFFF",
+      "outline": "#000000",
+      "category": "network"
+    }
+  ],
+  "edges": [
+    {
+      "source": "3",
+      "target": "4",
+      "data": {
+        "lineStyle": "targetArrow"
+      }
+    },
+    {
+      "source": "2",
+      "target": "4",
+      "data": {
+        "lineStyle": "targetArrow"
+      }
+    },
+    {
+      "source": "1",
+      "target": "7",
+      "data": {
+        "lineStyle": "bothArrows",
+        "label": "50Mbps"
+      }
+    },
+    {
+      "source": "5",
+      "target": "7",
+      "data": {
+        "lineStyle": "bothArrows",
+        "label": "50Mbps",
+        "details": "You can store details about connections in the details field"
+      }
+    }
+
+  ]
+}

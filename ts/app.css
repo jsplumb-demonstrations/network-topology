@@ -1,0 +1,254 @@
+:root {
+
+    --jtk-nice-blue: #97d2d8;
+    --jtk-nice-transparent-blue: #24afe433;
+
+    --jtk-network-topology-color-draw-tools: #21840e;
+    --jtk-network-topology-color-day-stripe-alt:#f9f9f9;
+    --jtk-network-topology-color-decoration-border:#999999;
+
+    --jtk-network-topology-draw-handle-size:4px;
+
+    --jtk-draw-handle-size:0.75rem;
+}
+
+body * {
+    font-family:'Verdana', sans-serif;
+}
+
+.jtk-demo-main {
+    display:flex;
+    width:100vw;
+}
+
+/* ----------- main styles -------------- */
+
+#jtk-demo-network-topology {
+    flex-grow:1;
+    outline:1px solid;
+    height:800px;
+    position:relative;
+}
+
+.jtk-demo-rhs {
+    flex-basis:250px;
+}
+
+.jtk-demo-rhs button {
+    margin:0.5rem;
+}
+
+.miniview {
+    position:absolute;
+    right:1rem;
+    top:1rem;
+    z-index:50;
+}
+
+.controls {
+    position:absolute;
+    left:1rem;
+    top:1rem;
+    z-index:50;
+}
+
+.jtk-export {
+    font-size:11px;
+    left: 10rem;
+    position: absolute;
+    top: 1rem;
+    z-index: 100;
+    background-color: white;
+    border-radius: 0.25rem;
+}
+
+.jtk-export a {
+    text-decoration: none;
+    color:inherit;
+}
+
+/* ----------- all vertices ---------------- */
+svg.jtk-shape {
+    height: 100%;
+    width: 100%;
+}
+
+.jtk-drag {
+    z-index:5;
+}
+
+/* --------------- group types ------------------ */
+
+.jtk-nt-vpc {
+    outline:2px solid yellowgreen;
+}
+
+/* -------------- node/group resizing -------------- */
+
+.jtk-draw-skeleton {
+    outline:2px solid var(--jtk-nice-blue) !important;
+}
+
+.jtk-draw-handle {
+    background-color: var(--jtk-nice-blue);
+}
+
+/* -------- shape palette ------------------- */
+
+/**
+    Assigned to each of the shapes in the palette.
+ */
+.jtk-shape-library-palette-set .jtk-shape-library-palette-shape {
+    width: 4rem;
+    margin: 0.5rem;
+    padding: 5px;
+    fill: white;
+    stroke: black;
+}
+
+
+/**
+    Assigned to the currently selected element in the palette.
+ */
+.jtk-shape-library-palette-shape.jtk-drag-drop-selected-element {
+    background-color:var(--jtk-nice-blue);
+}
+
+/* ------- group/vertex drag/drop */
+
+
+/**
+    Assigned to a group that is the active drop target for some node/group being dragged from elsewhere on the canvas.
+ */
+.jtk-group.jtk-drag-hover svg {
+   /* fill: var(--jtk-nice-blue);*/
+}
+
+/* ---------- vertex drawing ----------------- */
+
+/**
+    Assigned to any element on the canvas that will be added to a group that is currently being drawn, because this element
+    is contained by the group.
+ */
+.jtk-group-candidate-child svg {
+    fill: var(--jtk-nice-blue);
+}
+
+/**
+    Assigned to the frame that appears inside a group when one of its child elements is being dragged or resized, and which
+    shows the user what the size of the group will be when the operation ends.
+ */
+.jtk-surface-elastic-group-resize {
+    outline:2px solid var(--jtk-nice-blue);
+    background-color:var(--jtk-nice-transparent-blue);
+}
+
+
+/* ------------------ INSPECTOR ------------------------------------------------- */
+
+.jtk-inspector {
+    display:flex;
+    flex-direction: column;
+    padding:1rem;
+    background-color: #e7e7e7;
+    margin: 5px;
+}
+
+.jtk-inspector input {
+    width:100%;
+    height: 1.5rem;
+    margin:5px 0;
+}
+
+.jtk-inspector textarea {
+    width:100%;
+    margin:5px 0;
+}
+
+.jtk-edge-type-picker {
+    display:flex;
+    flex-direction:column;
+    flex-grow:1;
+}
+
+.jtk-edge-type-picker > div {
+    margin:5px 0;
+    height:1.5rem;
+    width:100%;
+    position:relative;
+}
+
+.jtk-edge-type-picker > div > div {
+    top:5px;
+    bottom:5px;
+    position:absolute;
+}
+
+.jtk-edge-type-picker > svg {
+    z-index:1;
+}
+
+.jtk-edge-type-picker-selected {
+    background-color:white;
+}
+
+/* ------------------------------ connectivity ------------------------------- */
+
+.jtk-connector {
+    z-index:6;
+}
+/*
+  The small discs from which the user can drag new connections.
+ */
+.jtk-network-topology-connect {
+    cursor: pointer;
+    background-color: var(--jtk-nice-blue);
+    transition: transform 0.1s;
+    position:absolute;
+    z-index:1; /* to ensure it appears above the draw skeleton */
+    width: 0.75rem;
+    height: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    opacity:0.8;
+    display: none;
+}
+
+.jtk-network-topology-connect-left {
+    left:0;
+    top:50%;
+    transform: translate(-50%, -50%);
+}
+
+.jtk-network-topology-connect-right {
+    right:0;
+    top:50%;
+    transform: translate(50%, -50%);
+}
+
+.jtk-network-topology-connect-top {
+    left:50%;
+    top:0;
+    transform: translate(-50%, -50%);
+}
+
+.jtk-network-topology-connect-bottom {
+    left:50%;
+    bottom:0;
+    transform: translate(-50%, 50%);
+}
+
+/**
+  Show connect elements on hover
+ */
+.jtk-group:hover > .jtk-network-topology-connect, .jtk-node:hover > .jtk-network-topology-connect, .jtk-drag-selected .jtk-network-topology-connect, .jtk-surface-touch-device .jtk-network-topology-connect {
+    display: flex;
+}
+
+/**
+    Hide connect elements if an edge is currently being dragged
+ */
+.jtk-surface-edge-dragging .jtk-network-topology-connect {
+    display:none !important;
+}
