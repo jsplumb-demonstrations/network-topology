@@ -11,17 +11,13 @@ import {
     ShapeLibraryPalette,
     DROP_MANAGER_MODE_TAP,
     DEFAULT,
-    CONNECTOR_TYPE_QUADRATIC_BEZIER,
     AnchorLocations,
-    ImageExporterUI,
-    SvgExporterUI,
     VanillaSurfaceRenderOptions,
     BlankEndpoint,
-    ArrowOverlay,
     Edge,
     CONNECTOR_TYPE_STRAIGHT,
     SelectionModes,
-    ExportControlsComponent
+    ExportControlsComponent, Connection, BrowserElement, EVENT_TAP, SurfaceObjectInfo
 } from "@jsplumbtoolkit/browser-ui"
 
 import {NETWORK_GROUP_SHAPES } from "./network-group-shapes"
@@ -65,7 +61,7 @@ ready(() => {
         },
         // disallow edges between any object and its ancestors.
         beforeConnect:(s:Node|Group, t:Node|Group) => {
-            return !jsplumb.graph.isAncestor(s, t as any) && !jsplumb.graph.isAncestor(t, s as any)
+            return s.id !== t.id && !jsplumb.graph.isAncestor(s, t as any) && !jsplumb.graph.isAncestor(t, s as any)
         }
     })
     const shapeLibrary = new ShapeLibraryImpl([NETWORK_GROUP_SHAPES, NETWORK_SHAPES])
@@ -81,8 +77,7 @@ ready(() => {
         },
         shapes:{
             library:shapeLibrary,
-            showLabels:false,
-            labelAttribute:"name"
+            showLabels:false
         },
         dragOptions:{
             filter:".jtk-draw-handle"
@@ -98,7 +93,7 @@ ready(() => {
                     template:`<div style="color:{{#textColor}}" class="jtk-network-object jtk-network-{{type}}" data-jtk-target="true">
                             <jtk-shape/>  
                             ${anchorPositions.map(ap => `<div class="jtk-network-topology-connect jtk-network-topology-connect-${ap.id}"  data-jtk-anchor-x="${ap.x}" data-jtk-anchor-y="${ap.y}" data-jtk-orientation-x="${ap.ox}"  data-jtk-orientation-y="${ap.oy}" data-jtk-source="true" title="Drag connection to another object"></div>`).join("")}                           
-                            <div class="node-delete node-action delete"/>
+                            <div class="jtk-edge-delete jtk-network-topology-delete"/>
                         </div>`,
                     events:{
                         "tap":(p:{obj:Group}) => jsplumb.setSelection(p.obj)
@@ -110,7 +105,7 @@ ready(() => {
                     template:`<div style="color:{{#textColor}}" class="jtk-network-object jtk-network-{{type}}" data-jtk-target="true">
                             <jtk-shape/> 
                               ${anchorPositions.map(ap => `<div class="jtk-network-topology-connect jtk-network-topology-connect-${ap.id}"  data-jtk-anchor-x="${ap.x}" data-jtk-anchor-y="${ap.y}" data-jtk-orientation-x="${ap.ox}"  data-jtk-orientation-y="${ap.oy}" data-jtk-source="true" title="Drag connection to another object"></div>`).join("")}                          
-                            <div class="node-delete node-action delete"/>
+                            <div class="jtk-edge-delete jtk-network-topology-delete"/>
                         </div>`,
                     events:{
                         "tap":(p:{obj:Node}) => jsplumb.setSelection(p.obj)
@@ -128,7 +123,25 @@ ready(() => {
                         "tap":(p:{edge:Edge}) => {
                             jsplumb.setSelection(p.edge)
                         }
-                    }
+                    },
+                    overlays:[
+                        {
+                            type:"Custom",
+                            options:{
+                                location:0.8,
+                                create:(c:Connection<BrowserElement>) => {
+                                    const d = document.createElement("div")
+                                    d.className = "jtk-edge-delete"
+                                    return d
+                                },
+                                events:{
+                                    "tap":(p:{edge:Edge}) => {
+                                        jsplumb.removeEdge(p.edge.id)
+                                    }
+                                }
+                            }
+                        }
+                    ]
                 }
             }
         },
@@ -148,7 +161,16 @@ ready(() => {
         events:{
             [EVENT_CANVAS_CLICK]:() => jsplumb.clearSelection()
         },
-        zoomToFit:true
+        zoomToFit:true,
+        modelEvents:[
+            {
+                event:EVENT_TAP,
+                selector:".jtk-network-topology-delete",
+                callback:(event: Event, eventTarget: BrowserElement, modelObject: SurfaceObjectInfo<any>) => {
+                    jsplumb.removeNode(modelObject.obj)
+                }
+            }
+        ]
 
     }
 

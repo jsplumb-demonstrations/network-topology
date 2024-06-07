@@ -77,6 +77,17 @@ svg.jtk-shape {
     z-index:5;
 }
 
+.jtk-network-topology-delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.jtk-surface-selected-element .jtk-network-topology-delete {
+    display:block;
+}
+
 /* --------------- group types ------------------ */
 
 .jtk-nt-vpc {
@@ -197,6 +208,16 @@ svg.jtk-shape {
 .jtk-connector {
     z-index:6;
 }
+
+.jtk-edge-delete {
+    z-index:7;
+    display:none;
+}
+
+.jtk-surface-selected-connection.jtk-edge-delete {
+    display:block;
+}
+
 /*
   The small discs from which the user can drag new connections.
  */
