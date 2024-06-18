@@ -1,6 +1,5 @@
 import {
     ControlsComponent,
-    DrawingToolsPlugin,
     Group,
     Node,
     newInstance,
@@ -17,7 +16,7 @@ import {
     Edge,
     CONNECTOR_TYPE_STRAIGHT,
     SelectionModes,
-    ExportControlsComponent, Connection, BrowserElement, EVENT_TAP, SurfaceObjectInfo
+    ExportControlsComponent, Connection, BrowserElement, EVENT_TAP, SurfaceObjectInfo, DrawingToolsPlugin
 } from "@jsplumbtoolkit/browser-ui"
 
 import {NETWORK_GROUP_SHAPES } from "./network-group-shapes"
@@ -149,13 +148,13 @@ ready(() => {
             type:"Absolute"
         },
         plugins:[
-            DrawingToolsPlugin.type,
             {
                 type:MiniviewPlugin.type,
                 options:{
                     container:document.querySelector(".miniview")
-                }
-            }
+                },
+            },
+            DrawingToolsPlugin.type
         ],
         consumeRightClick:false,
         events:{
