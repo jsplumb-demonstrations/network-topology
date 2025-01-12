@@ -14,7 +14,7 @@ import {
     VanillaSurfaceRenderOptions,
     BlankEndpoint,
     Edge,
-    CONNECTOR_TYPE_STRAIGHT,
+    CONNECTOR_TYPE_LEGACY_STRAIGHT,
     SelectionModes,
     ExportControlsComponent, Connection, BrowserElement, EVENT_TAP, SurfaceObjectInfo, DrawingToolsPlugin
 } from "@jsplumbtoolkit/browser-ui"
@@ -115,7 +115,7 @@ ready(() => {
                 [DEFAULT]:{
                     label:"{{label}}",
                     outlineWidth:10,
-                    connector:CONNECTOR_TYPE_STRAIGHT,
+                    connector:CONNECTOR_TYPE_LEGACY_STRAIGHT,
                     anchor:AnchorLocations.Continuous,
                     endpoint:BlankEndpoint.type,
                     events:{
@@ -143,9 +143,6 @@ ready(() => {
                     ]
                 }
             }
-        },
-        layout:{
-            type:"Absolute"
         },
         plugins:[
             {
